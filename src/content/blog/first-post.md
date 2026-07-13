@@ -6,5 +6,4 @@ heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
 Hi, I'm Ruva. I code, I sing, and I write sometimes.
- 
 Writing forces me to understand things properly. More soon!
