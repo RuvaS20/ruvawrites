@@ -31,5 +31,11 @@ export default defineConfig({
 				],
 			},
 		},
+		{
+			provider: fontProviders.google(),
+			name: 'Bricolage Grotesque',
+			cssVariable: '--font-bricolage-grotesque',
+			fallbacks: ['sans-serif'],
+		}
 	],
 });
