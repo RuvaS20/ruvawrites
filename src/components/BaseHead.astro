@@ -51,3 +51,10 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
+
+<script is:inline>
+	const theme = localStorage.getItem('theme')
+		|| (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+	document.documentElement.setAttribute('data-theme', theme);
+</script>
+

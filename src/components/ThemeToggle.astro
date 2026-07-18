@@ -1,0 +1,113 @@
+<label class="toggle">
+	<input type="checkbox" />
+	<div></div>
+</label>
+
+<style>
+	/* The whole toggle: pinned to the top-right corner, above other content.
+	   scale(.5) shrinks the 36px art down to a compact ~18px control. */
+	.toggle {
+		position: fixed;
+		top: 16px;
+		right: 24px;
+		transform: scale(.5);
+		cursor: pointer;
+		z-index: 10;
+	}
+
+	/* Hide the real checkbox — we style the <div> next to it instead,
+	   and read its :checked state to know which icon to show. */
+	.toggle input { display: none; }
+
+	/* The moon: a circle whose inset shadow carves out a crescent.
+	   This is the default (light-mode / unchecked) shape. */
+	.toggle input + div {
+		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		position: relative;
+		box-shadow: inset 16px -16px 0 0 var(--toggle-color);
+		transform: scale(1) rotate(-2deg);
+		transition: box-shadow .5s ease 0s, transform .4s ease .1s;
+	}
+
+	/* Fills the circle solid in dark mode (via light-dark), so the
+	   moon/sun body has a face; transparent in light mode. */
+	.toggle input + div:before {
+		content: '';
+		width: inherit; height: inherit;
+		border-radius: inherit;
+		position: absolute; left: 0; top: 0;
+		background: light-dark(transparent, var(--toggle-color));
+		transition: background .3s ease;
+	}
+
+	/* The sun's rays: eight tiny dots placed around the center using
+	   box-shadow offsets. Hidden (scale 0) until the toggle is checked. */
+	.toggle input + div:after {
+		content: '';
+		width: 8px; height: 8px;
+		border-radius: 50%;
+		margin: -4px 0 0 -4px;
+		position: absolute; top: 50%; left: 50%;
+		box-shadow: 0 -23px 0 var(--toggle-color), 0 23px 0 var(--toggle-color),
+			23px 0 0 var(--toggle-color), -23px 0 0 var(--toggle-color),
+			15px 15px 0 var(--toggle-color), -15px 15px 0 var(--toggle-color),
+			15px -15px 0 var(--toggle-color), -15px -15px 0 var(--toggle-color);
+		transform: scale(0);
+		transition: all .3s ease;
+	}
+
+	/* CHECKED = sun: the larger inset shadow erases the crescent into a
+	   full disc, and it shrinks + rotates upright. */
+	.toggle input:checked + div {
+		box-shadow: inset 32px -32px 0 0 var(--bg);
+		transform: scale(.5) rotate(0deg);
+		transition: transform .3s ease .1s, box-shadow .2s ease 0s;
+	}
+
+	/* Checked: give the sun's disc a solid fill. */
+	.toggle input:checked + div:before {
+		background: var(--toggle-color);
+		transition: background .3s ease .1s;
+	}
+
+	/* Checked: pop the eight rays into view around the sun. */
+	.toggle input:checked + div:after {
+		transform: scale(1.5);
+		transition: transform .5s ease .15s;
+	}
+</style>
+
+
+<script>
+	const toggleInput = document.querySelector('.toggle input');
+	const root = document.documentElement;
+
+	const applyTheme = (isDark) => {
+		root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+		localStorage.setItem('theme', isDark ? 'dark' : 'light');
+	};
+
+	// Sync the checkbox to whatever BaseHead already applied on load
+	toggleInput.checked = root.getAttribute('data-theme') === 'dark';
+
+	toggleInput.addEventListener('input', () => {
+		const isDark = toggleInput.checked;
+
+		// Reveal starts from the center of the toggle
+		let x = window.innerWidth / 2, y = window.innerHeight / 2;
+		const rect = document.querySelector('.toggle')?.getBoundingClientRect();
+		if (rect) { x = rect.left + rect.width / 2; y = rect.top + rect.height / 2; }
+
+		// Fallback for browsers without the API
+		if (!document.startViewTransition) { applyTheme(isDark); return; }
+
+		const transition = document.startViewTransition(() => applyTheme(isDark));
+		transition.ready.then(() => {
+			root.style.setProperty('--x', `${x}px`);
+			root.style.setProperty('--y', `${y}px`);
+		});
+	});
+</script>
+

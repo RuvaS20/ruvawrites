@@ -1,9 +1,3 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-
 :root {
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
@@ -15,17 +9,54 @@
 	--box-shadow:
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
+
+	/* Light Theme */
+	--bg: #f9f9f9;
+	--text: 15, 18, 25;
+	--header-bg: #f9f9f9;
+	--toggle-color: hsla(230, 25%, 10%, 1);
+	color-scheme: light;
+	--x: 50%;   /* default reveal origin */
+	--y: 50%;
 }
+
+:root[data-theme='dark'] {
+	/* Dark Theme */
+	--bg: #0f1219;
+	--text: 229, 233, 240;
+	--header-bg: #0f1219;
+	--toggle-color: #f9f9f9;
+	color-scheme: dark;
+}
+
+@keyframes reveal-in {
+	from { clip-path: circle(0% at var(--x) var(--y)); }
+	to   { clip-path: circle(150% at var(--x) var(--y)); }
+}
+@keyframes reveal-out {
+	from { clip-path: circle(150% at var(--x) var(--y)); }
+	to   { clip-path: circle(0% at var(--x) var(--y)); }
+}
+::view-transition-new(root) {
+	animation: reveal-in 0.5s ease-in-out forwards;
+	z-index: 1; mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+	animation: reveal-out 0.5s ease-in-out forwards; animation-delay: .5s;
+	z-index: 0; mix-blend-mode: normal;
+}
+::view-transition-image-pair(root) { isolation: isolate; }
+
+
 body {
 	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: #f4e9e1;
-	background-size: 100% 600px;
+	background: var(--bg);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: rgb(var(--text));
 	font-size: 20px;
 	line-height: 1.7;
 }
@@ -42,7 +73,7 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
+	color: rgb(var(--text));
 	line-height: 1.2;
 	font-family: var(--font-bricolage-grotesque);
 }
