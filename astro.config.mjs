@@ -3,39 +3,26 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
+import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://ruvawrites.pages.dev',
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(), sitemap(), icon()],
 	fonts: [
-		{
-			provider: fontProviders.local(),
-			name: 'Atkinson',
-			cssVariable: '--font-atkinson',
-			fallbacks: ['sans-serif'],
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/atkinson-regular.woff'],
-						weight: 400,
-						style: 'normal',
-						display: 'swap',
-					},
-					{
-						src: ['./src/assets/fonts/atkinson-bold.woff'],
-						weight: 700,
-						style: 'normal',
-						display: 'swap',
-					},
-				],
-			},
-		},
 		{
 			provider: fontProviders.google(),
 			name: 'Bricolage Grotesque',
 			cssVariable: '--font-bricolage-grotesque',
-			fallbacks: ['sans-serif'],
+			weights: ['200', '300', '400', '500', '600', '700', '800'],
+			fallbacks: ['sans-serif']
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Manrope',
+			cssVariable: '--font-manrope',
+			weights: ['200', '300', '400', '500', '600', '700', '800', '900'],
+			fallbacks: ['sans-serif']
 		}
 	],
 });

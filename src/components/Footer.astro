@@ -1,22 +1,69 @@
 ---
+import { Icon } from 'astro-icon/components';
 const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} ruvas20. All rights reserved.
+	<span class="footer-rights">
+		{today.getFullYear()} &copy; <span>Ruvarashe Sadya</span>. All rights reserved.
+	</span>
 
+	<span class="social-links">
+		<a href="mailto:ruvarashe.sadya@gmail.com" aria-label="Email">
+			<Icon name="email" />
+		</a>
+		<a href="https://www.linkedin.com/in/ruvarashe-sadya/" target="_blank" rel="noopener" aria-label="LinkedIn">
+			<Icon name="linkedin" />
+		</a>
+		<a href="https://github.com/ruvas20" target="_blank" rel="noopener" aria-label="GitHub">
+			<Icon name="github" />
+		</a>
+	</span>
 </footer>
+
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-around;
+		gap: 1em;
+		padding: 1.5em 2em;
 		background: var(--header-bg);
-		color: rgb(var(--gray));
-		text-align: center;
+		color: rgb(var(--text));
+		font-size: 0.9rem;
+	}
+	.footer-rights {
+		color: rgb(var(--text));
+		font-size: 1.075rem;
+	}
+	.footer-rights span {
+		font-weight: 600;
 	}
 	.social-links {
 		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
+		align-items: center;
+		gap: 2em;
+	}
+	.social-links a {
+		color: rgb(var(--text));
+		display: inline-flex;
+		transition: color 0.15s ease;
+	}
+	.social-links a:hover {
+		color: var(--accent);
+	}
+	.social-links svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	/* Stack and center on narrow screens */
+	@media (max-width: 480px) {
+		footer {
+			flex-direction: column;
+			justify-content: center;
+			text-align: center;
+		}
 	}
 </style>
