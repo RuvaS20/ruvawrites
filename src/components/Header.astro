@@ -6,14 +6,28 @@ import ThemeToggle from './ThemeToggle.astro';
 
 <header>
 	<nav>
+		<!-- Checkbox for hamburger menu for mobile on left -->
+		<input type="checkbox" id="mobile-toggle" class="hidden-toggle" aria-label="Toggle menu" />
+
+		<!-- Hamburger button -->
+		<label for="mobile-toggle" class="hamburger-menu">
+			<span class="line line-1"></span>
+			<span class="line line-2"></span>
+			<span class="line line-3"></span>
+		</label>
+
+		<!-- Site title -->
 		<h2><a href="/">{SITE_TITLE}</a></h2>
+
+		<!-- Nav links -->
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
 			<HeaderLink href="/projects">Projects</HeaderLink>
-			<ThemeToggle />
 		</div>
+
+		<!-- Theme toggle on right -->
+		<ThemeToggle />
 	</nav>
 </header>
 <style>
@@ -21,33 +35,162 @@ import ThemeToggle from './ThemeToggle.astro';
 		margin: 0;
 		padding: 0 1em;
 		background: var(--header-bg);
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
 	}
+
+	nav {
+		position: relative; 
+		display: flex;
+		align-items: center;
+		gap: 1.5em;
+	}
+
 	h2 {
 		margin: 0;
 		font-size: 1em;
 		font-family: var(--font-bricolage-grotesque);
-		font-weight: 800;
+		font-weight: 700;
+		padding-left: 1em;
+	}
+	h2 a {
+		text-decoration: none;
+		color: rgb(var(--text));
 	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
+	/* Push links + toggle to the right, title stays left */
+	.internal-links {
+		margin-left: auto;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: 1.5em;
 		padding-right: 5em;
 	}
-	nav a {
-		padding: 1em 0.5em;
+	.internal-links a {
+		padding: 1em 0;
 		color: rgb(var(--text));
-		border-bottom: 4px solid transparent;
 		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 0.9em;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+
+	/* The circle marker */
+	.internal-links a::before {
+		content: "";
+		display: block;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		border: 1.5px solid rgb(var(--text));
+		background-color: transparent;
+		transition: background-color 0.2s ease;
+	}
+	.internal-links a.active::before {
+		background-color: rgb(var(--text));
+	}
+	.internal-links a:not(.active):hover::before {
+		background-color: rgba(var(--text), 0.2);
+	}
+	.internal-links a.active {
+		font-weight: 500;
+	}
+
+	/* Checkbox for hamburger menu visually hidden */
+	.hidden-toggle {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+	}
+	/* Hamburger hidden on desktop */
+	.hamburger-menu {
+		display: none;
+	}
+
+	/* MOBILE STYLES & ANIMATIONS */
+	@media (max-width: 768px) {
+		nav {
+			justify-content: space-between;
+			flex-wrap: wrap;   
+			row-gap: 0;        
+			padding-top: 1.5em;
+		}
+
+		/* Show the hamburger, on the left */
+		.hamburger-menu {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			width: 24px;
+			height: 18px;
+			cursor: pointer;
+			z-index: 10;
+		}
+		.hamburger-menu .line {
+			display: block;
+			height: 2px;
+			width: 100%;
+			background-color: rgb(var(--text));
+			border-radius: 2px;
+			transition: transform 0.4s ease, opacity 0.3s ease;
+		}
+
+		/* Hamburger transition when clicked */
+		.hidden-toggle:checked ~ .hamburger-menu .line-1 {
+			transform: translateY(8px) rotate(45deg);
+		}
+		.hidden-toggle:checked ~ .hamburger-menu .line-2 {
+			opacity: 0;
+			transform: translateX(-10px);
+		}
+		.hidden-toggle:checked ~ .hamburger-menu .line-3 {
+			transform: translateY(-8px) rotate(-45deg);
+		}
+
+		/* Centering the site title and making it fade when clicked */
+		h2 {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 5;
+			transition: opacity 0.3s ease, visibility 0.3s ease; 
+		}
+
+		/* Links become a full-width row that stays in flow, so opening it
+		      pushes the page content down instead of floating over it. */
+		.internal-links {
+			order: 1;             
+			flex-basis: 100%;     
+			box-sizing: border-box;
+			margin-left: 0;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1.25em;
+			max-height: 0;
+			padding: 0 1em;
+			overflow: hidden;
+			transition: max-height 0.35s ease, padding 0.35s ease;
+		}
+
+		.hidden-toggle:checked ~ .internal-links {
+			max-height: 320px;    /* just needs to exceed the menu's real height */
+			padding: 0.75em 1em 1.5em 1em;
+		}
+
+		/* Staggered fade-in for the menu items */
+		.internal-links a {
+			opacity: 0;
+			transform: translateX(-10px);
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+		.hidden-toggle:checked ~ h2 {
+			opacity: 0;
+			visibility: hidden;
+		} /* Fade out of site title */
+		.hidden-toggle:checked ~ .internal-links a:nth-child(1) { transition-delay: 0.10s; opacity: 1; transform: translateX(0); }
+		.hidden-toggle:checked ~ .internal-links a:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translateX(0); }
+		.hidden-toggle:checked ~ .internal-links a:nth-child(3) { transition-delay: 0.20s; opacity: 1; transform: translateX(0); }
+		.hidden-toggle:checked ~ .internal-links a:nth-child(4) { transition-delay: 0.25s; opacity: 1; transform: translateX(0); }
 	}
 </style>
