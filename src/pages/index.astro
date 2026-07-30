@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { Icon } from 'astro-icon/components';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const recentPosts = (await getCollection('blog'))
@@ -19,12 +20,69 @@ const recentPosts = (await getCollection('blog'))
 	<body>
 		<Header />
 		<main>
-			<h1>Hi, I'm Ruva.</h1>
-			<p>
-				This is where I write about the things I'm reading, building, and thinking about.
-				Here are my most recent posts.
-			</p>
+			
+			<div id="hero">
+				
+				<!-- TOP ROW -->
+				<div id="hero-top">
+					<div class="badge-horizontal">
+						<h1>HI!</h1>
+						<span class="hi-illustration">
+							<Icon name="ruva_illustration" />
+						</span>
+					</div>
+					<h1 class="hero-heading">I'm Ruva & I have fun with</h1>
+				</div>
+					
+				<!-- MIDDLE ROW -->
+				<div id="hero-middle">
+					<h1 class="hero-heading">Tech & Make things look cool</h1>
+					
+				</div>
 
+				<!-- BOTTOM ROW (2 Columns) -->
+				<div id="hero-bottom">
+					
+					<!-- Left Column -->
+					<div class="card left-card">
+						<div class="card-top-row">
+							<span class="icon-placeholder">[Bird]</span>
+						</div>
+						<div class="years-container">
+							<span class="huge-number">97 TABS</span>
+							<span class="plus-sign">+</span>
+						</div>
+						
+						<div class="card-bottom-row">
+							<p class="passion-text">
+								Stop for a while and smell the flowers, feel the softness of the cool grass caressing your bare feet. Hear the bees buzzing in the air, the sound of the leaves rustling in the wind. Move nearer, close your eyes, and take a breath of the fresh air.
+							</p>
+							<div class="icon-placeholder squiggle">[Squiggle]</div>
+						</div>
+					</div>
+
+					<!-- Right Column: With Code & Testimonial -->
+					<div class="right-col">
+						<h1 class="hero-heading with-code">WITH CODE.</h1>
+						
+						<div class="card right-card">
+							<div class="hearts">&hearts; &hearts; &hearts; &hearts; &hearts;</div>
+							<div class="testimonial-body">
+								<div class="author-info">
+									<div class="avatar-placeholder"></div>
+									<span class="author-name">Lorem Ipsum</span>
+								</div>
+								<div class="review-text">
+									You should definitely make a guestbook. Sed ut perspiciatis unde omnis iste natus error sit voluptatem. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			
 			<h2>Recent posts</h2>
 			<ul>
 				{
@@ -44,19 +102,220 @@ const recentPosts = (await getCollection('blog'))
 </html>
 
 <style>
+	/* -- Base Existing Styles -- */
 	ul {
 		list-style: none;
 		padding: 0;
 	}
-	ul li {
-		margin-bottom: 1em;
-	}
-	ul li a {
-		font-size: 1.2em;
-	}
+	ul li { margin-bottom: 1em; }
+	ul li a { font-size: 1.2em; }
 	ul li :global(time) {
 		display: block;
 		color: rgb(var(--gray));
 		font-size: 0.9em;
+	}
+	main {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* -- Hero Section Layout -- */
+	#hero {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 20px 0;
+	}
+
+	/* Typography Scale */
+	.hero-heading {
+		font-size: clamp(2.5rem, 5.5vw, 6.5rem);
+		text-transform: uppercase;
+		margin: 0;
+		line-height: 1.1;
+		font-weight: 900;
+	}
+
+	/* Top Row */
+	#hero-top {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	/* Middle Row */
+	#hero-middle {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	/* Bottom Row / Grid */
+	#hero-bottom {
+		display: flex;
+		gap: 1.5rem;
+		align-items: stretch;
+		margin-top: 1rem;
+	}
+
+	/* Layout Cards */
+	.card {
+		background: rgba(150, 150, 150, 0.1); /* Subtle placeholder background */
+		border-radius: 24px;
+		padding: 2.5rem;
+		border: 1px solid rgba(150, 150, 150, 0.3);
+	}
+
+	/* Left Column  */
+	.left-card {
+		flex: 1.2; /* Takes up slightly more space like in the image */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 2rem;
+		background: #87bab2;
+	}
+	.years-container {
+		display: flex;
+		align-items: flex-start;
+		line-height: 1;
+	}
+	.huge-number {
+		font-size: clamp(4rem, 8vw, 9rem);
+		font-weight: 900;
+	}
+	.plus-sign {
+		font-size: clamp(2rem, 5vw, 6rem);
+		color: #888; /* Placeholder color */
+		margin-left: 0.5rem;
+	}
+	.card-bottom-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: 1rem;
+	}
+	.passion-text {
+		max-width: 80%;
+		font-size: 1.1rem;
+		line-height: 1.5;
+		text-transform: uppercase;
+		margin: 0;
+	}
+
+	/* Right Column (With Code + Review) */
+	.right-col {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+	.with-code {
+		text-align: right;
+		padding-right: 1rem;
+	}
+	.right-card {
+		flex-grow: 1; /* Stretches to match height of the left card */
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		background: #d56d88;
+	}
+
+	/* Testimonial Inner Layout */
+	.testimonial-body {
+		display: flex;
+		gap: 2rem;
+		align-items: center;
+	}
+	.author-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.5rem;
+		min-width: 100px;
+	}
+	.avatar-placeholder {
+		width: 70px;
+		height: 70px;
+		border-radius: 50%;
+		background: rgba(150, 150, 150, 0.3);
+	}
+	.author-name {
+		font-size: 0.9rem;
+		font-weight: bold;
+	}
+	.review-text {
+		font-size: 0.95rem;
+		line-height: 1.6;
+		text-transform: uppercase;
+		position: relative;
+	}
+	.logo-placeholder {
+		position: absolute;
+		bottom: -10px;
+		right: 0;
+		font-weight: bold;
+	}
+
+	/* Pill/Badge Placeholders */
+	.badge-horizontal {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		border: 2px solid currentColor;
+		border-radius: 50px;
+		padding: 0.5rem 1.5rem;
+		font-weight: bold;
+		white-space: nowrap;
+		background: #f17751;
+	}
+	.icon-placeholder {
+		font-weight: bold;
+		opacity: 0.5;
+	}
+
+	/* Rounded, bordered illustration replacing the arrow */
+	.hi-illustration {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 4rem;
+		height: 4rem;
+		border: 0px solid currentColor;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+	.hi-illustration :global(svg) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hearts {
+		font-size: 1.5rem;
+		letter-spacing: 2px;
+	}
+
+	/* Mobile Layout Fixes */
+	@media (max-width: 900px) {
+		#hero-bottom {
+			flex-direction: column;
+		}
+		.testimonial-body {
+			flex-direction: column;
+			text-align: center;
+		}
+		.with-code {
+			text-align: left;
+		}
+		.passion-text {
+			max-width: 100%;
+		}
 	}
 </style>

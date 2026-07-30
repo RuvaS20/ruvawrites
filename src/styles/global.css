@@ -11,9 +11,9 @@
 		0 16px 32px rgba(var(--gray), 33%);
 
 	/* Light Theme */
-	--bg: #f9f9f9;
+	--bg: #f6f2f0;
 	--text: 15, 18, 25;
-	--header-bg: #f9f9f9;
+	--header-bg: #f6f2f0;
 	--toggle-color: hsla(230, 25%, 10%, 1);
 	color-scheme: light;
 	--x: 50%;   /* default reveal origin */
@@ -25,7 +25,7 @@
 	--bg: #0f1219;
 	--text: 229, 233, 240;
 	--header-bg: #0f1219;
-	--toggle-color: #f9f9f9;
+	--toggle-color: #f6f2f0;
 	color-scheme: dark;
 }
 
@@ -64,7 +64,7 @@ main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
-	padding: 3em 1em;
+	padding: 3em 2.1em;
 }
 h1,
 h2,
