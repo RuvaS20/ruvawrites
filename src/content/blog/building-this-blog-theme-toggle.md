@@ -1,6 +1,6 @@
 ---
-title: 'Building This Blog: The Theme Toggle'
-description: 'Notes-to-self on the light/dark toggle powering this site — CSS variables, killing the flash, the pure-CSS sun/moon morph, and the circular View Transition wipe, broken down slowly.'
+title: 'Building This Blog: Themes & Toggles'
+description: 'Learning about the light/dark toggle, killing the flash, the pure-CSS sun/moon morph, and the circular View Transition wipe.'
 pubDate: 'Jul 20 2026'
 heroImage: '../../assets/blog-placeholder-5.jpg'
 ---
