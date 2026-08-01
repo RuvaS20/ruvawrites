@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Postcard from '../components/Postcard.astro';
 import { Icon } from 'astro-icon/components';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
@@ -20,10 +21,8 @@ const recentPosts = (await getCollection('blog'))
 	<body>
 		<Header />
 		<main>
-			
 			<div id="hero">
-				
-				<!-- TOP ROW -->
+				<!-- Top row: the "HI!" badge and the intro line -->
 				<div id="hero-top">
 					<div class="badge-horizontal">
 						<h1>HI!</h1>
@@ -31,58 +30,38 @@ const recentPosts = (await getCollection('blog'))
 							<Icon name="ruva_illustration" />
 						</span>
 					</div>
-					<h1 class="hero-heading">I'm Ruva & I have fun with</h1>
-				</div>
-					
-				<!-- MIDDLE ROW -->
-				<div id="hero-middle">
-					<h1 class="hero-heading">Tech & Make things look cool</h1>
-					
+					<h1 class="hero-heading">I'm <span class="sketch-font-heading">RUVA</span> & I am available for</h1>
 				</div>
 
-				<!-- BOTTOM ROW (2 Columns) -->
+				<!-- Bottom row: stat card on the left, heading + postcard on the right -->
 				<div id="hero-bottom">
-					
-					<!-- Left Column -->
-					<div class="card left-card">
-						<div class="card-top-row">
-							<span class="icon-placeholder">[Bird]</span>
-						</div>
-						<div class="years-container">
-							<span class="huge-number">97 TABS</span>
-							<span class="plus-sign">+</span>
-						</div>
-						
-						<div class="card-bottom-row">
-							<p class="passion-text">
-								Stop for a while and smell the flowers, feel the softness of the cool grass caressing your bare feet. Hear the bees buzzing in the air, the sound of the leaves rustling in the wind. Move nearer, close your eyes, and take a breath of the fresh air.
-							</p>
-							<div class="icon-placeholder squiggle">[Squiggle]</div>
-						</div>
-					</div>
+					<div class="left-card">
+						<!-- Corner "stickers", pinned to the card -->
+						<img class="corner-illustration top-left" src="/cat3.svg" alt="" />
+						<span class="corner-illustration bottom-right squiggle">
+							<Icon name="squiggle" />
+						</span>
 
-					<!-- Right Column: With Code & Testimonial -->
-					<div class="right-col">
-						<h1 class="hero-heading with-code">WITH CODE.</h1>
-						
-						<div class="card right-card">
-							<div class="hearts">&hearts; &hearts; &hearts; &hearts; &hearts;</div>
-							<div class="testimonial-body">
-								<div class="author-info">
-									<div class="avatar-placeholder"></div>
-									<span class="author-name">Lorem Ipsum</span>
-								</div>
-								<div class="review-text">
-									You should definitely make a guestbook. Sed ut perspiciatis unde omnis iste natus error sit voluptatem. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-								</div>
+						<div class="card-content">
+							<div class="stat-row">
+								<span class="stat-num">288</span>
+								<span class="stat-word sketch-font-heading">MONTHS</span>
+								<span class="stat-plus">+</span>
 							</div>
+
+							<p class="passion-text">
+								OF ENJOYING ALL THINGS WEIRD AND WONDERFUL, NOT EXCLUDING TEACHING COMPUTERS HOW TO SEE, MAKING INTERWEB EXPERIENCES, WRITING, SINGING, READING, AND HELPING CATS IN THEIR QUEST FOR WORLD DOMINATION.
+							</p>
 						</div>
 					</div>
 
+					<div class="right-col">
+						<h1 class="hero-heading with-code sketch-font-heading">dilly & dally.</h1>
+						<Postcard class="hero-postcard" />
+					</div>
 				</div>
-
 			</div>
-			
+
 			<h2>Recent posts</h2>
 			<ul>
 				{
@@ -102,7 +81,14 @@ const recentPosts = (await getCollection('blog'))
 </html>
 
 <style>
-	/* -- Base Existing Styles -- */
+	/* This page runs full width, overriding the fixed 720px `main` in global.css. */
+	main {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* -- Recent posts list -- */
 	ul {
 		list-style: none;
 		padding: 0;
@@ -114,100 +100,164 @@ const recentPosts = (await getCollection('blog'))
 		color: rgb(var(--gray));
 		font-size: 0.9em;
 	}
-	main {
-		width: 100%;
-		max-width: 100%;
-		box-sizing: border-box;
-	}
 
-	/* -- Hero Section Layout -- */
+	/* -- Hero section -- */
 	#hero {
+		/* Hero palette. Scoped here because these colours are specific to
+		   this section rather than part of the site-wide theme. */
+		--hero-card-bg: #a9cdc7;      /* sage green card */
+		--hero-card-border: rgba(150, 150, 150, 0.3);
+		--hero-accent: #f17751;       /* terracotta, used for the badge and squiggle */
+		--hero-ink: #000;             /* text on the sage card */
+
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		padding: 20px 0;
+		padding: 25px 0 30px 0;
 	}
 
-	/* Typography Scale */
+	/* Typography scale */
 	.hero-heading {
-		font-size: clamp(2.5rem, 5.5vw, 6.5rem);
+		font-family: var(--font-lato);
+		font-size: clamp(2rem, 5vw, 6rem);
 		text-transform: uppercase;
 		margin: 0;
 		line-height: 1.1;
 		font-weight: 900;
 	}
+	.sketch-font-heading {
+		font-family: var(--font-cabin-sketch);
+		font-size: clamp(2.6rem, 5.6vw, 6.6rem);
+		font-weight: 700;
+	}
 
-	/* Top Row */
+	/* Top row */
 	#hero-top {
 		display: flex;
 		align-items: center;
 		gap: 1.5rem;
 		flex-wrap: wrap;
+		padding-top: 0.7rem;
 	}
 
-	/* Middle Row */
-	#hero-middle {
+	.badge-horizontal {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
+		gap: 0.5rem;
+		border: 2px solid currentColor;
+		border-radius: 50px;
+		padding: 0.5rem 1.5rem;
+		font-weight: bold;
+		white-space: nowrap;
+		background: var(--hero-accent);
 	}
 
-	/* Bottom Row / Grid */
+	/* Circular avatar sitting inside the badge */
+	.hi-illustration {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 4rem;
+		height: 4rem;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+	.hi-illustration :global(svg) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	/* Bottom row */
 	#hero-bottom {
 		display: flex;
 		gap: 1.5rem;
 		align-items: stretch;
 		margin-top: 1rem;
+		padding-bottom: 1rem;
 	}
 
-	/* Layout Cards */
-	.card {
-		background: rgba(150, 150, 150, 0.1); /* Subtle placeholder background */
-		border-radius: 24px;
-		padding: 2.5rem;
-		border: 1px solid rgba(150, 150, 150, 0.3);
-	}
-
-	/* Left Column  */
+	/* --- Left card --- */
 	.left-card {
-		flex: 1.2; /* Takes up slightly more space like in the image */
+		flex: 1.2;
+		position: relative; /* anchors the absolutely positioned corner stickers */
+		background: var(--hero-card-bg);
+		border: 1px solid var(--hero-card-border);
+		border-radius: 24px;
+		color: var(--hero-ink);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4rem 3rem; /* keeps the text clear of the corner stickers */
+	}
+
+	.corner-illustration {
+		position: absolute;
+	}
+	.top-left {
+		top: 1.5rem;
+		left: 1.5rem;
+		width: clamp(3rem, 5vw, 4.5rem);
+		height: auto;
+	}
+	.bottom-right {
+		bottom: 1.5rem;
+		right: 1.5rem;
+	}
+	.squiggle {
+		display: inline-flex;
+		color: var(--hero-accent);
+	}
+	.squiggle :global(svg) {
+		width: clamp(4rem, 7vw, 6.5rem);
+		height: auto;
+		display: block;
+	}
+
+	.card-content {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
 		gap: 2rem;
-		background: #87bab2;
-	}
-	.years-container {
-		display: flex;
-		align-items: flex-start;
-		line-height: 1;
-	}
-	.huge-number {
-		font-size: clamp(4rem, 8vw, 9rem);
-		font-weight: 900;
-	}
-	.plus-sign {
-		font-size: clamp(2rem, 5vw, 6rem);
-		color: #888; /* Placeholder color */
-		margin-left: 0.5rem;
-	}
-	.card-bottom-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		gap: 1rem;
-	}
-	.passion-text {
-		max-width: 80%;
-		font-size: 1.1rem;
-		line-height: 1.5;
-		text-transform: uppercase;
-		margin: 0;
+		width: 100%;
+		max-width: 550px; /* keeps the paragraph from getting too wide */
+		z-index: 1; /* keeps the text above the stickers */
 	}
 
-	/* Right Column (With Code + Review) */
+	/* The "288 MONTHS +" line */
+	.stat-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		line-height: 1;
+	}
+	.stat-num {
+		font-size: clamp(4rem, 8vw, 6.5rem);
+		font-weight: 900;
+	}
+	.stat-word {
+		font-size: clamp(4rem, 7.5vw, 6.5rem);
+		text-transform: uppercase;
+		padding-top: 12px;
+	}
+	.stat-plus {
+		font-size: clamp(3rem, 6vw, 5rem);
+		color: var(--hero-accent);
+		font-weight: 900;
+		transform: translateY(-15px); /* lifts the plus towards the cap height */
+	}
+
+	.passion-text {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		margin: 0;
+		text-align: justify;
+		padding-right: 2rem;
+	}
+
+	/* --- Right column --- */
 	.right-col {
 		flex: 1;
 		display: flex;
@@ -218,104 +268,21 @@ const recentPosts = (await getCollection('blog'))
 		text-align: right;
 		padding-right: 1rem;
 	}
-	.right-card {
-		flex-grow: 1; /* Stretches to match height of the left card */
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-		background: #d56d88;
+	/* The postcard sizes itself to this slot and brings its own background. */
+	.hero-postcard {
+		margin-top: auto; /* sits at the bottom, level with the left card */
 	}
 
-	/* Testimonial Inner Layout */
-	.testimonial-body {
-		display: flex;
-		gap: 2rem;
-		align-items: center;
-	}
-	.author-info {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		gap: 0.5rem;
-		min-width: 100px;
-	}
-	.avatar-placeholder {
-		width: 70px;
-		height: 70px;
-		border-radius: 50%;
-		background: rgba(150, 150, 150, 0.3);
-	}
-	.author-name {
-		font-size: 0.9rem;
-		font-weight: bold;
-	}
-	.review-text {
-		font-size: 0.95rem;
-		line-height: 1.6;
-		text-transform: uppercase;
-		position: relative;
-	}
-	.logo-placeholder {
-		position: absolute;
-		bottom: -10px;
-		right: 0;
-		font-weight: bold;
-	}
-
-	/* Pill/Badge Placeholders */
-	.badge-horizontal {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		border: 2px solid currentColor;
-		border-radius: 50px;
-		padding: 0.5rem 1.5rem;
-		font-weight: bold;
-		white-space: nowrap;
-		background: #f17751;
-	}
-	.icon-placeholder {
-		font-weight: bold;
-		opacity: 0.5;
-	}
-
-	/* Rounded, bordered illustration replacing the arrow */
-	.hi-illustration {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 4rem;
-		height: 4rem;
-		border: 0px solid currentColor;
-		border-radius: 50%;
-		overflow: hidden;
-	}
-	.hi-illustration :global(svg) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.hearts {
-		font-size: 1.5rem;
-		letter-spacing: 2px;
-	}
-
-	/* Mobile Layout Fixes */
 	@media (max-width: 900px) {
 		#hero-bottom {
 			flex-direction: column;
 		}
-		.testimonial-body {
-			flex-direction: column;
-			text-align: center;
-		}
 		.with-code {
 			text-align: left;
 		}
-		.passion-text {
-			max-width: 100%;
+		/* Nothing left to stretch into, so let the stack sit at the top. */
+		.left-card {
+			justify-content: flex-start;
 		}
 	}
 </style>

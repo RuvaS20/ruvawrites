@@ -75,7 +75,7 @@ h6 {
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--text));
 	line-height: 1.2;
-	font-family: var(--font-bricolage-grotesque);
+	font-family: var(--font-lato);
 }
 h1 {
 	font-size: 3.052em;

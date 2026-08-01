@@ -80,8 +80,6 @@ const {
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Buda:wght@300&family=The+Girl+Next+Door&display=swap');
-
   /* Establishes the container that every cqi length below resolves against. */
   .postcard-wrap {
     container-type: inline-size;
@@ -126,7 +124,7 @@ const {
   }
 
   .header h1 {
-    font-family: 'Buda', serif;
+    font-family: var(--font-buda);
     font-size: 7cqi;
     margin: 0;
     letter-spacing: 0.375cqi;
@@ -147,7 +145,7 @@ const {
   }
 
   .post-message {
-    font-family: 'The Girl Next Door', cursive;
+    font-family: var(--font-the-girl-next-door);
     font-size: 2.8cqi;
     line-height: 1.3;
     text-align: center;
@@ -324,7 +322,7 @@ const {
   }
 
   .sign-off {
-    font-family: 'The Girl Next Door', cursive;
+    font-family: var(--font-the-girl-next-door);
     font-size: 2cqi;
     text-align: right;
     margin-top: auto;
