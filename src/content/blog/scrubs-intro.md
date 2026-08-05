@@ -1,6 +1,6 @@
 ---
-title: 'Scrubs: Co-designing Digital Heatlh'
-description: ''
+title: 'Scrubs: Co-designing Digital Health'
+description: 'Starting a health-tech series with King’s Health Partners’ co-design course — what it means to design with people, what doesn’t count, and why speed can be dangerous in healthcare.'
 pubDate: 'Aug 05 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 series: 'Scrubs'
