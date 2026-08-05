@@ -3,6 +3,8 @@ title: 'Building This Blog: Astro'
 description: 'Notes-to-self on Astro — what it is, how it works, and how the pieces actually fit together to build the page you are reading.'
 pubDate: 'Jul 18 2026'
 heroImage: '../../assets/blog-placeholder-2.jpg'
+series: 'Building This Blog'
+seriesOrder: 1
 ---
 
 This blog is built with **Astro**, and I learned a lot while putting it together. Why did I pick Astro? Well... it's kind of a long story.

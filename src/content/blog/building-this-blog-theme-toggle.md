@@ -3,6 +3,8 @@ title: 'Building This Blog: Themes & Toggles'
 description: 'Learning about the light/dark toggle, killing the flash, the pure-CSS sun/moon morph, and the circular View Transition wipe.'
 pubDate: 'Jul 20 2026'
 heroImage: '../../assets/blog-placeholder-5.jpg'
+series: 'Building This Blog'
+seriesOrder: 2
 ---
 
 In my last post, [Building This Blog: Astro](/blog/building-this-blog-astro/), I wrote up a light intro to Astro. In this post I write about how I implemented the theme toggle effect on my page. I highkenuinely can't find the Code Pen from which I got this design inspo from, but never fear, I will find you (one day)!

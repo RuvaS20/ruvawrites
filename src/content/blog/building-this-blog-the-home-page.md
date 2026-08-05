@@ -3,6 +3,8 @@ title: 'Building This Blog: Hero & Zero'
 description: 'Laying out the hero from scratch.'
 pubDate: 'Jul 30 2026'
 heroImage: '../../assets/blog-placeholder-2.jpg'
+series: 'Building This Blog'
+seriesOrder: 5
 ---
 
 With the [nav](/blog/building-this-blog-the-nav/) sorted, I finally started on the home page itself. I wanted something bold (so much for Eric's clean suggestion) and a little playful up top. Here's how the hero came together.

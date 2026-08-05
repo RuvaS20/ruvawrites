@@ -3,6 +3,8 @@ title: 'Building This Blog: Cards & Regards'
 description: 'Building a postcard component in pure CSS — container units, a fake border, a perforated stamp, and a smudged postmark.'
 pubDate: 'Jul 31 2026'
 heroImage: '../../assets/blog-placeholder-4.jpg'
+series: 'Building This Blog'
+seriesOrder: 6
 ---
 
 The [hero](/blog/building-this-blog-the-home-page/) left me with a gap in the bottom-right corner for my guestbook idea. I decided to implement the guestbook as sort of postcard entries because some strangers on reddit once posted some postcards to me from Germany and America which I still have and cherish to this day. So I scoured the interwebs for postcard designs, and found [this postcard on Pinterest](https://pin.it/1S0T2dBmJ) and decided on that design.

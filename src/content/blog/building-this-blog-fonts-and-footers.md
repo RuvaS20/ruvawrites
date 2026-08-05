@@ -3,6 +3,8 @@ title: 'Building This Blog: Fonts & Footers'
 description: 'Learning about the Astro’s font API, and importing SVG icons with astro-icon.'
 pubDate: 'Jul 23 2026'
 heroImage: '../../assets/blog-placeholder-4.jpg'
+series: 'Building This Blog'
+seriesOrder: 3
 ---
 
 After the long and tedious stuff of [theme toggle](/blog/building-this-blog-theme-toggle/), I have turned to the simpler stuff: the font and the footer. So this is a short one for me to remember basics.

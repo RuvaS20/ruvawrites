@@ -3,6 +3,8 @@ title: 'Building This Blog: Nav & Ham'
 description: 'Cleaning up the nav, and building hamburger menu for mobile.'
 pubDate: 'Jul 24 2026'
 heroImage: '../../assets/blog-placeholder-3.jpg'
+series: 'Building This Blog'
+seriesOrder: 4
 ---
 
 After building the [fonts and footer](/blog/building-this-blog-fonts-and-footers/), I started on making the nav. I'm going for a clean design for this portfolio so i'm trying my best start bit by bit with that. Restraint is quite hard bu it can be very rewarding.
