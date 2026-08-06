@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRNTND - Simplified</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Light theme colors */
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --accent-orange: #d97746;
+            --accent-cyan: #3bc7c7; 
+            --divider-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 4rem;
+        }
+
+        /* Header Section with Inline Divider */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .header-text {
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .header-text .brand {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        .header-line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--divider-color);
+        }
+
+        /* Main Hero Text */
+        .hero-title {
+            font-size: clamp(4rem, 15vw, 13rem);
+            font-weight: 900;
+            line-height: 0.9;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 4rem;
+        }
+
+        /* Main Bottom Divider */
+        .main-divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--divider-color);
+            margin-bottom: 4rem;
+        }
+
+        /* Bottom Section Layout */
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 4rem;
+        }
+
+        .description {
+            flex: 1;
+            max-width: 550px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Circular Badge */
+        .badge-wrapper {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            flex-shrink: 0;
+            background-color: #1a1a1a; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .badge-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .badge-inner-circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .badge-inner-circle svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container { padding: 2rem; }
+            .header-text { white-space: normal; } /* allows text to wrap on very small screens */
+            .bottom-section { 
+                flex-direction: column;
+                gap: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="header">
+            <div class="header-text">
+                <span class="brand">RUVA</span> PRESENTS: A QUEST FOR WHIMSY
+            </div>
+            <!-- The new inline divider -->
+            <div class="header-line"></div>
+        </div>
+
+        <h1 class="hero-title">FRNTND</h1>
+
+        <div class="main-divider"></div>
+
+        <div class="bottom-section">
+            <div class="description">
+                I believe in art and the celebration of the human spirit. I believe in the power of design to inspire, to challenge, and to transform. I believe in the beauty of simplicity, the elegance of restraint, and the magic of imagination. I believe in the joy of creation, the thrill of discovery, and the wonder of possibility. I believe in the future of design, and I invite you to join me on this journey.
+            </div>
+
+            <div class="badge-wrapper">
+                <svg class="badge-svg" viewBox="0 0 160 160">
+                    <path id="text-path" d="M 80, 80 m -62, 0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" fill="none" />
+                    <text font-family="sans-serif" font-weight="bold" font-size="12" fill="#ffffff" letter-spacing="3.5">
+                        <textPath href="#text-path" startOffset="0%" textLength="390">SCROLL DOWN ✦ SCROLL DOWN ✦</textPath>
+                    </text>
+                </svg>
+                
+                <div class="badge-inner-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M11 4h2v10h3v2h-2v2h-4v-2H8v-2h3V4zM7 14v-2h2v2H7zm8 0v-2h2v2h-2z" fill="white"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
