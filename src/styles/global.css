@@ -117,6 +117,19 @@ input {
 }
 table {
 	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 2em;
+}
+th,
+td {
+	padding: 0.6em 0.8em;
+	border: 1px solid rgba(var(--text), 15%);
+	text-align: left;
+	vertical-align: top;
+}
+th {
+	font-weight: 600;
+	background-color: rgba(var(--text), 4%);
 }
 img {
 	max-width: 100%;
