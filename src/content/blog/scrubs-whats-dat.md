@@ -1,7 +1,7 @@
 ---
 title: "Scrubs: What's DAT?"
 description: "An introduction to DaTscans for use as medical imaging tools in Parkinson's Disease Diagnosis"
-pubDate: 'Aug 07 2026'
+pubDate: 'Aug 10 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 series: 'Scrubs'
 seriesOrder: 3
