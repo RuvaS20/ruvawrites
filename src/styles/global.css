@@ -136,6 +136,15 @@ img {
 	height: auto;
 	border-radius: 8px;
 }
+/* Caption: an italic line on the line directly after an image, no blank line between */
+.prose p > img + em {
+	display: block;
+	margin-top: 0.6em;
+	font-size: 0.8em;
+	font-style: normal;
+	line-height: 1.5;
+	color: rgba(var(--text), 65%);
+}
 code {
 	padding: 2px 5px;
 	background-color: rgb(var(--gray-light));
