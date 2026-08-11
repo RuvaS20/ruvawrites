@@ -1,10 +1,11 @@
 ---
-title: 'Scrubs: Co-designing Digital Health'
-description: 'Starting a health-tech series with King’s Health Partners’ co-design course — what it means to design with people, what doesn’t count, and why speed can be dangerous in healthcare.'
+title: 'Co-designing Digital Health'
+description: 'Starting a health-tech series with King’s Health Partners’ co-design course and what it means to design with all stakeholders.'
 pubDate: 'Aug 05 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 series: 'Scrubs'
 seriesOrder: 1
+cardImage: 'health.svg'
 ---
 
 I’ve decided to start documenting my exploration of the health-tech space through courses, projects, and other things I learn and build. I’ve always had a love for health, and much to my aunties’ chagrin, I did not become the doctor they wanted me to be - the one they wanted to call up as they aged and pained away. Instead, I chose tech, and lately I’ve been wondering where my place really is in the field.

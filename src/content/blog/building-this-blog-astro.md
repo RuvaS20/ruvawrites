@@ -1,5 +1,5 @@
 ---
-title: 'Building This Blog: Astro'
+title: 'Astro'
 description: 'Notes-to-self on Astro — what it is, how it works, and how the pieces actually fit together to build the page you are reading.'
 pubDate: 'Jul 18 2026'
 heroImage: '../../assets/blog-placeholder-2.jpg'

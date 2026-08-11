@@ -1,5 +1,5 @@
 ---
-title: 'Building This Blog: Themes & Toggles'
+title: 'Themes & Toggles'
 description: 'Learning about the light/dark toggle, killing the flash, the pure-CSS sun/moon morph, and the circular View Transition wipe.'
 pubDate: 'Jul 20 2026'
 heroImage: '../../assets/blog-placeholder-5.jpg'

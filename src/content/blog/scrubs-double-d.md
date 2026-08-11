@@ -1,6 +1,6 @@
 ---
-title: 'Scrubs: Double Diamonding'
-description: 'An exploration of the Design Thinking Double Diamond Framework with regards to digital health'
+title: 'Double Diamonding'
+description: 'An exploration of the Design Thinking Double Diamond framework with regards to digital health and its pros and cons.'
 pubDate: 'Aug 07 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 series: 'Scrubs'

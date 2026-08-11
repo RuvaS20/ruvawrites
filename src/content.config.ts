@@ -17,6 +17,9 @@ const blog = defineCollection({
 			// Group posts into an ordered series
 			series: z.string().optional(),
 			seriesOrder: z.number().optional(),
+			// Filename of the SVG in `src/assets/svg/` used on the post card.
+			// Falls back to flowers_default.svg when omitted.
+			cardImage: z.string().optional(),
 		}),
 });
 

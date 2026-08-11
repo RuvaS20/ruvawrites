@@ -1,5 +1,5 @@
 ---
-title: 'Building This Blog: Nav & Ham'
+title: 'Nav & Ham'
 description: 'Cleaning up the nav, and building hamburger menu for mobile.'
 pubDate: 'Jul 24 2026'
 heroImage: '../../assets/blog-placeholder-3.jpg'

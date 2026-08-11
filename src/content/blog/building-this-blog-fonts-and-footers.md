@@ -1,5 +1,5 @@
 ---
-title: 'Building This Blog: Fonts & Footers'
+title: 'Fonts & Footers'
 description: 'Learning about the Astro’s font API, and importing SVG icons with astro-icon.'
 pubDate: 'Jul 23 2026'
 heroImage: '../../assets/blog-placeholder-4.jpg'
