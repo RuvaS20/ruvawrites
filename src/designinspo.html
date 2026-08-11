@@ -1,200 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FRNTND - Simplified</title>
-    <style>
-        /* CSS Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posts Section</title>
+<!-- Lato and Manrope, at the same weights the site loads via astro.config.mjs.
+     This file is standalone, so it fetches them from Google rather than using
+     the --font-lato / --font-manrope variables Astro provides. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Reset and Base Styles */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-        :root {
-            /* Light theme colors */
-            --bg-color: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #555555;
-            --accent-orange: #d97746;
-            --accent-cyan: #3bc7c7; 
-            --divider-color: rgba(0, 0, 0, 0.1);
-        }
+    body {
+        /* Soft beige background matching the image */
+        background-color: #f7f2f0;
+        /* Manrope for body copy, as on the site */
+        font-family: 'Manrope', sans-serif;
+        color: #1a1a1a;
+        display: flex;
+        justify-content: center;
+        /* flex-start rather than center: the two rows are taller than most
+           viewports, and centring would push the top of the grid off-screen */
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
+    /* Main layout: three equal columns, so every card is the same width.
+       The header occupies the first cell of the first row. */
+    .posts-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        max-width: 1200px;
+        width: 100%;
+    }
+
+    /* Header Area: first column, first row */
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 10px;
+        /* Column width is fixed by the grid, so the wider gutter the header
+           used to have is recreated with padding instead */
+        padding-right: 35px;
+    }
+
+    /* Lato for headings, as on the site */
+    h1, h2 {
+        font-family: 'Lato', sans-serif;
+        color: #222;
+    }
+
+    h1 {
+        font-weight: 900;
+        letter-spacing: -0.5px;
+    }
+
+    h2 {
+        font-weight: 700;
+        letter-spacing: -0.25px;
+
+    }
+
+    .header-section h1 {
+        font-size: 3.2rem;
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    .header-section p {
+        font-size: 1.05rem;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    /* Button Style */
+    .posts-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 24px;
+        background-color: #ffffff;
+        border: 1px solid #222;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: #222;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        cursor: pointer;
+    }
+
+    .posts-btn:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Individual Card Style */
+    .card {
+        background-color: #ffffff;
+        border: 1px solid #333;
+        border-radius: 16px;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Eyebrow row: series tag on the left, publication date on the right */
+    .card-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .card-tag {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #444;
+        background-color: rgba(0, 0, 0, 0.06);
+        padding: 4px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .card-date {
+        font-size: 0.8rem;
+        color: #666;
+        white-space: nowrap;
+        /* Pushed right by auto margin rather than space-between, so a post
+           with no series still has its date sitting on the right */
+        margin-left: auto;
+    }
+
+    .card h2 {
+        font-size: 1.6rem;
+        margin-bottom: 16px;
+    }
+
+    .card p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #333;
+        margin-bottom: 24px;
+        /* Allows paragraph to take available space, pushing image to bottom if text lengths differ */
+        flex-grow: 1;
+    }
+
+    /* Illustration panel: a flat colour with a traced SVG silhouette on top.
+       The SVGs are 384x256 (3:2), near enough to this panel's ratio that
+       `cover` crops almost nothing. */
+    .card-illustration {
+        width: 100%;
+        height: 215px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.1); /* Slight border to define the edge */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .illustration-datscan {
+        background-color: #8990c7; /* Periwinkle blue from image */
+        background-image: url('assets/svg/brain.svg');
+        /* brain.svg is portrait (256x352) while the others are landscape, so
+           `cover` would zoom it until only a middle slice showed. Fitting it
+           to the panel width and anchoring to the top frames the upper two
+           scans instead, which keeps the panel full-bleed like its neighbours. */
+        background-size: 100% auto;
+        background-position: center top;
+    }
+
+    .illustration-diamond {
+        background-color: #fd84a4; /* Pink from image */
+        background-image: url('assets/svg/flowers_default.svg');
+    }
+
+    /* Colours chosen to sit alongside the periwinkle and pink */
+    .illustration-codesign {
+        background-color: #f2b263; /* Warm amber */
+        background-image: url('assets/svg/health.svg');
+    }
+
+    .illustration-postcard {
+        background-color: #7fb3a5; /* Sage */
+        background-image: url('assets/svg/postcard.svg');
+    }
+
+    .illustration-hero {
+        background-color: #c79ad8; /* Lilac */
+        background-image: url('assets/svg/hero.svg');
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 960px) {
+        .posts-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .header-section {
+            /* Header spans the full width and sits above the cards */
+            grid-column: 1 / -1;
             align-items: center;
-            overflow-x: hidden;
+            text-align: center;
+            padding-right: 0;
+            margin-bottom: 15px;
         }
+    }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 4rem;
+    @media (max-width: 600px) {
+        .posts-container {
+            grid-template-columns: 1fr;
         }
-
-        /* Header Section with Inline Divider */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .header-text {
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .header-text .brand {
-            color: var(--accent-orange);
-            font-weight: 600;
-        }
-
-        .header-line {
-            flex-grow: 1;
-            height: 1px;
-            background-color: var(--divider-color);
-        }
-
-        /* Main Hero Text */
-        .hero-title {
-            font-size: clamp(4rem, 15vw, 13rem);
-            font-weight: 900;
-            line-height: 0.9;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            margin-bottom: 4rem;
-        }
-
-        /* Main Bottom Divider */
-        .main-divider {
-            width: 100%;
-            height: 1px;
-            background-color: var(--divider-color);
-            margin-bottom: 4rem;
-        }
-
-        /* Bottom Section Layout */
-        .bottom-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 4rem;
-        }
-
-        .description {
-            flex: 1;
-            max-width: 550px;
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        /* Circular Badge */
-        .badge-wrapper {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            flex-shrink: 0;
-            background-color: #1a1a1a; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-
-        .badge-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            animation: rotate 20s linear infinite;
-        }
-
-        .badge-inner-circle {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .badge-inner-circle svg {
-            width: 16px;
-            height: 16px;
-            fill: #ffffff;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container { padding: 2rem; }
-            .header-text { white-space: normal; } /* allows text to wrap on very small screens */
-            .bottom-section { 
-                flex-direction: column;
-                gap: 3rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <div class="header">
-            <div class="header-text">
-                <span class="brand">RUVA</span> PRESENTS: A QUEST FOR WHIMSY
-            </div>
-            <!-- The new inline divider -->
-            <div class="header-line"></div>
-        </div>
+<section class="posts-container">
 
-        <h1 class="hero-title">FRNTND</h1>
-
-        <div class="main-divider"></div>
-
-        <div class="bottom-section">
-            <div class="description">
-                I believe in art and the celebration of the human spirit. I believe in the power of design to inspire, to challenge, and to transform. I believe in the beauty of simplicity, the elegance of restraint, and the magic of imagination. I believe in the joy of creation, the thrill of discovery, and the wonder of possibility. I believe in the future of design, and I invite you to join me on this journey.
-            </div>
-
-            <div class="badge-wrapper">
-                <svg class="badge-svg" viewBox="0 0 160 160">
-                    <path id="text-path" d="M 80, 80 m -62, 0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" fill="none" />
-                    <text font-family="sans-serif" font-weight="bold" font-size="12" fill="#ffffff" letter-spacing="3.5">
-                        <textPath href="#text-path" startOffset="0%" textLength="390">SCROLL DOWN ✦ SCROLL DOWN ✦</textPath>
-                    </text>
-                </svg>
-                
-                <div class="badge-inner-circle">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M11 4h2v10h3v2h-2v2h-4v-2H8v-2h3V4zM7 14v-2h2v2H7zm8 0v-2h2v2h-2z" fill="white"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
+    <div class="header-section">
+        <h1>Blog Posts</h1>
+        <p>Notes on the things I find interesting or that I'm working on.</p>
+        <a href="#" class="posts-btn">See more &rarr;</a>
     </div>
+
+    <article class="card">
+        <div class="card-meta">
+            <span class="card-tag">Scrubs</span>
+            <time class="card-date" datetime="2026-08-10">10 Aug 2026</time>
+        </div>
+        <h2>What&rsquo;s DAT?</h2>
+        <p>An introduction to DaTscans for use as medical imaging tools in Parkinson&rsquo;s Disease diagnosis, what the scan can and cannot do, and what that means for the models trained on it.</p>
+        <div class="card-illustration illustration-datscan" role="img" aria-label="Placeholder for the post's cover image"></div>
+    </article>
+
+    <article class="card">
+        <div class="card-meta">
+            <span class="card-tag">Scrubs</span>
+            <time class="card-date" datetime="2026-08-07">7 Aug 2026</time>
+        </div>
+        <h2>Double Diamonding</h2>
+        <p>An exploration of the Design Thinking Double Diamond framework with regards to digital health, and why following it strictly would miss the point.</p>
+        <div class="card-illustration illustration-diamond" role="img" aria-label="Placeholder for the post's cover image"></div>
+    </article>
+
+    <article class="card">
+        <div class="card-meta">
+            <span class="card-tag">Scrubs</span>
+            <time class="card-date" datetime="2026-08-05">5 Aug 2026</time>
+        </div>
+        <h2>Co-designing Digital Health</h2>
+        <p>Starting a health-tech series with King&rsquo;s Health Partners&rsquo; co-design course &mdash; what it means to design with people, what doesn&rsquo;t count, and why speed can be dangerous in healthcare.</p>
+        <div class="card-illustration illustration-codesign" role="img" aria-label="Placeholder for the post's cover image"></div>
+    </article>
+
+    <article class="card">
+        <div class="card-meta">
+            <span class="card-tag">Building This Blog</span>
+            <time class="card-date" datetime="2026-07-31">31 Jul 2026</time>
+        </div>
+        <h2>Cards &amp; Regards</h2>
+        <p>Building a postcard component in pure CSS &mdash; container units, a fake border, a perforated stamp, and a smudged postmark.</p>
+        <div class="card-illustration illustration-postcard" role="img" aria-label="Placeholder for the post's cover image"></div>
+    </article>
+
+    <article class="card">
+        <div class="card-meta">
+            <span class="card-tag">Building This Blog</span>
+            <time class="card-date" datetime="2026-07-30">30 Jul 2026</time>
+        </div>
+        <h2>Hero &amp; Zero</h2>
+        <p>Laying out the hero from scratch, and working out what the front page should say before anyone scrolls past it.</p>
+        <div class="card-illustration illustration-hero" role="img" aria-label="Placeholder for the post's cover image"></div>
+    </article>
+
+</section>
 
 </body>
 </html>
