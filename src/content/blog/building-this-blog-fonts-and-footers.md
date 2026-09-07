@@ -9,8 +9,6 @@ seriesOrder: 3
 
 After the long and tedious stuff of [theme toggle](/blog/building-this-blog-theme-toggle/), I have turned to the simpler stuff: the font and the footer. So this is a short one for me to remember basics.
 
----
-
 ## Swapping the font
 
 I learnt that Astro has a built-in font API, so I don't hand-write `@font-face` rules or drop `<link>` tags in the head. I just describe the font I want in `astro.config.mjs` and Astro handles the rest. This is how I do it:
@@ -40,40 +38,16 @@ body {
 }
 ```
 
-Not so fun fact for me: **if you don't list `weights`, Astro only loads `[400]`. So you gotta list out all the font weights you want.
+Fun fact that I found out in a not so fun way: **if you don't list `weights`, Astro only loads `[400]`. So you gotta list out all the font weights you want.
 
----
 
 ## Footer work
 
-I wanted the copyright on the left and the social icons on the right, sitting on the same line. The whole trick is one flex container:
+I wanted the copyright on the left and the social icons on the right, sitting on the same line. I remembered that I have strayed far from my former flexbox glory, what with all the Wordpress Learndash drag-and-drop I have done over the past few years.
 
-```css
-footer {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1em;
-}
-```
+Had to dust off the coat, and be serious about my life again...so I played...[Flexbox Froggy](https://flexboxfroggy.com/)!
 
-`justify-content: space-between` pushes the two children to opposite ends. I ended up using space-around though - it just looked better. `align-items: center` lines them up vertically. 
-
-The markup is just two spans — the second one holds the links:
-
-```astro
-<footer>
-	<span class="footer-rights">
-		{today.getFullYear()} &copy; <span>Ruvarashe Sadya</span>. All rights reserved.
-	</span>
-	<span class="social-links">
-		<!-- icons go here -->
-	</span>
-</footer>
-```
-
----
+![Screenshot of My Defeat of the Elusive Amphibians](../../assets/flexbox-froggy.png)
 
 ## Importing icons with astro-icon
 
@@ -112,12 +86,4 @@ import { Icon } from 'astro-icon/components';
 </a>
 ```
 
-
----
-
-## What I want future-me to remember
-
-- Astro's font API gives you a **CSS variable**, not an applied font — point `body { font-family }` at it yourself.
-- List every weight you use, or Astro only loads 400 and your `font-weight` silently falls back. Restart the dev server after changing font config.
-- One `display: flex` + `justify-content: space-between` puts the footer on a line. 
-- astro-icon reads `src/icons/`, filename = name. 
+Forward ever!
