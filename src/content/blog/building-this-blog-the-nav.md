@@ -18,7 +18,7 @@ I'm loving the minimal JS of the design of the hamburger. It uses a plain **chec
 1. When it's ticked, the menu is open. When it's unticked, the menu is closed.
 2. Style the menu based on the checkbox's state.
 
-Apparently, this is such a well-worn hack for building things that seem interactive — menus, tabs, accordions, modals — with no JavaScript. 
+Apparently, this is such a well-worn hack for building things that seem interactive — menus, tabs, accordions, modals — with no JavaScript.
 
 ## Step 1: the hidden checkbox and its button
 
@@ -30,9 +30,9 @@ Everything starts with two elements: a hidden checkbox and a label that acts as 
 
 <!-- The hamburger the user actually taps -->
 <label for="mobile-toggle" class="hamburger-menu">
-	<span class="line line-1"></span>
-	<span class="line line-2"></span>
-	<span class="line line-3"></span>
+    <span class="line line-1"></span>
+    <span class="line line-2"></span>
+    <span class="line line-3"></span>
 </label>
 ```
 
@@ -44,11 +44,11 @@ Then I hide the checkbox itself, because nobody should see it — they see the h
 
 ```css
 .hidden-toggle {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-	pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
 }
 ```
 
@@ -58,7 +58,7 @@ CSS can style an element based on the checkbox's state using two pieces of synta
 
 ```css
 .hidden-toggle:checked ~ .internal-links {
-	/* styles that apply only while the box is ticked */
+    /* styles that apply only while the box is ticked */
 }
 ```
 
@@ -84,16 +84,16 @@ The three burger lines are stacked with a gap. To make the closing "X" when the 
 ```css
 /* Top line drops to the middle and tilts 45° */
 .hidden-toggle:checked ~ .hamburger-menu .line-1 {
-	transform: translateY(8px) rotate(45deg);
+    transform: translateY(8px) rotate(45deg);
 }
 /* Middle line just vanishes */
 .hidden-toggle:checked ~ .hamburger-menu .line-2 {
-	opacity: 0;
-	transform: translateX(-10px);
+    opacity: 0;
+    transform: translateX(-10px);
 }
 /* Bottom line rises to the middle and tilts the other way */
 .hidden-toggle:checked ~ .hamburger-menu .line-3 {
-	transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-8px) rotate(-45deg);
 }
 ```
 
@@ -105,7 +105,7 @@ And the reason it *glides* is the transition property:
 
 ```css
 .hamburger-menu .line {
-	transition: transform 0.4s ease, opacity 0.3s ease;
+    transition: transform 0.4s ease, opacity 0.3s ease;
 }
 ```
 
@@ -114,23 +114,22 @@ And the reason it *glides* is the transition property:
 In the design I was insipred by, opening the menu **pushed the page content down**.
 
 > **Normal document flow:** the browser's default layout. Elements are placed one after another, and each one takes up space, pushing the next element down.
-
 > **`position: absolute`:** removes an element from the normal document flow. It no longer takes up space, so other elements ignore it, and you can position it anywhere you want relative to its nearest positioned parent (or the page if there isn't one).
 
 I removed `position: absolute` and let the menu sit in the normal flow as a full-width row:
 
 ```css
 .internal-links {
-	order: 1;            /* sit below the top bar */
-	flex-basis: 100%;    /* take a full-width row of its own */
-	max-height: 0;       /* start collapsed — zero height */
-	overflow: hidden;    /* hide the links while collapsed */
-	transition: max-height 0.35s ease;
+    order: 1;            /* sit below the top bar */
+    flex-basis: 100%;    /* take a full-width row of its own */
+    max-height: 0;       /* start collapsed — zero height */
+    overflow: hidden;    /* hide the links while collapsed */
+    transition: max-height 0.35s ease;
 }
 
 /* When the checkbox is ticked, grow to full height */
 .hidden-toggle:checked ~ .internal-links {
-	max-height: 320px;
+    max-height: 320px;
 }
 ```
 
@@ -140,7 +139,7 @@ Now, because the menu is really *there* taking up space, growing its height from
 
 ## Step 5: The `max-height` trick
 
-You might've spotted something odd back in Step 4: the menu doesn't open by animating its `height` from `0` to full — it animates **`max-height`**, from `0` up to `320px`. 
+You might've spotted something odd back in Step 4: the menu doesn't open by animating its `height` from `0` to full — it animates **`max-height`**, from `0` up to `320px`.
 
 > **`max-height`:** a ceiling on how tall an element is allowed to get.
 
@@ -158,9 +157,9 @@ Last flourish. Instead of all the links appearing at once, they fade in one afte
 
 ```css
 .internal-links a {
-	opacity: 0;
-	transform: translateX(-10px);
-	transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .hidden-toggle:checked ~ .internal-links a:nth-child(1) { transition-delay: 0.10s; opacity: 1; transform: translateX(0); }
 .hidden-toggle:checked ~ .internal-links a:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translateX(0); }
@@ -169,4 +168,4 @@ Last flourish. Instead of all the links appearing at once, they fade in one afte
 
 > **`:nth-child(2)`:** a way to target "the 2nd link," "the 3rd link," and so on — so I can hand each one its own delay.
 
-Hurrah! 
+Hurrah!

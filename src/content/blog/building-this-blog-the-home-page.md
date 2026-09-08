@@ -8,7 +8,7 @@ seriesOrder: 5
 cardImage: 'hero.svg'
 ---
 
-I finally started on the home page itself. I wanted something bold and a little playful / goofy (so much for Eric's clean aesthetic suggestion). 
+I finally started on the home page itself. I wanted something bold and a little playful / goofy (so much for Eric's clean aesthetic suggestion).
 
 ## Letting it breathe
 
@@ -16,8 +16,8 @@ Every page on this site was originally capped at a `720px` reading column by def
 
 ```css
 main {
-	width: 100%;
-	max-width: 100%;
+    width: 100%;
+    max-width: 100%;
 }
 ```
 
@@ -27,9 +27,9 @@ The headings are deliberately huge, but "huge" on a laptop is "overflowing off t
 
 ```css
 .hero-heading {
-	font-size: clamp(2.5rem, 5.5vw, 6.5rem);
-	text-transform: uppercase;
-	font-weight: 900;
+    font-size: clamp(2.5rem, 5.5vw, 6.5rem);
+    text-transform: uppercase;
+    font-weight: 900;
 }
 ```
 

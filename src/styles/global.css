@@ -174,9 +174,6 @@ code {
 	color: rgb(var(--black));
 	font-size: 1.25rem;
 }
-.prose pre {
-
-}
 pre {
 	padding: 1.5em;
 	border-radius: 8px;

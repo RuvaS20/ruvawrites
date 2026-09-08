@@ -20,19 +20,19 @@ The card's background is actually the pink. A pseudo-element then paints the cre
 
 ```css
 .postcard {
-	background-color: var(--pink-border);
-	border: none;
-	position: relative;
-	z-index: 1;
+    background-color: var(--pink-border);
+    border: none;
+    position: relative;
+    z-index: 1;
 }
 
 .postcard::before {
-	content: '';
-	position: absolute;
-	inset: 2.5cqi;      /* the pink gap that reads as a border */
-	background-color: var(--cream-bg);
-	border-radius: 2cqi;
-	z-index: -1;
+    content: '';
+    position: absolute;
+    inset: 2.5cqi;      /* the pink gap that reads as a border */
+    background-color: var(--cream-bg);
+    border-radius: 2cqi;
+    z-index: -1;
 }
 ```
 
@@ -48,11 +48,11 @@ The card takes a few props for the small text — the heading, the postmark line
 
 ```astro
 <p class="post-message">
-	<slot name="message">
-		No leaves are brown<br />
-		I miss the seasons in Harare<br />
-		...
-	</slot>
+    <slot name="message">
+        No leaves are brown<br />
+        I miss the seasons in Harare<br />
+        ...
+    </slot>
 </p>
 ```
 
@@ -68,19 +68,19 @@ The photo is a `background` on `.stamp`, embedded as a base64 data URI so the co
 
 ```css
 .stamp::before {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: calc(40 * var(--u));   /* slightly larger than the photo */
-	height: calc(49 * var(--u));
-	background: #fffff9;
-	mask:
-		radial-gradient(farthest-side at 50% 0%,   #0000 60%, #000 0) calc(-2.25 * var(--u)) 0    / calc(4.5 * var(--u)) calc(2.25 * var(--u)) repeat-x,
-		radial-gradient(farthest-side at 50% 100%, #0000 60%, #000 0) calc(-2.25 * var(--u)) 100% / calc(4.5 * var(--u)) calc(2.25 * var(--u)) repeat-x,
-		radial-gradient(farthest-side at 0% 50%,   #0000 60%, #000 0) 0    calc(-2.25 * var(--u)) / calc(2.25 * var(--u)) calc(4.5 * var(--u)) repeat-y,
-		radial-gradient(farthest-side at 100% 50%, #0000 60%, #000 0) 100% calc(-2.25 * var(--u)) / calc(2.25 * var(--u)) calc(4.5 * var(--u)) repeat-y;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(40 * var(--u));   /* slightly larger than the photo */
+    height: calc(49 * var(--u));
+    background: #fffff9;
+    mask:
+        radial-gradient(farthest-side at 50% 0%,   #0000 60%, #000 0) calc(-2.25 * var(--u)) 0    / calc(4.5 * var(--u)) calc(2.25 * var(--u)) repeat-x,
+        radial-gradient(farthest-side at 50% 100%, #0000 60%, #000 0) calc(-2.25 * var(--u)) 100% / calc(4.5 * var(--u)) calc(2.25 * var(--u)) repeat-x,
+        radial-gradient(farthest-side at 0% 50%,   #0000 60%, #000 0) 0    calc(-2.25 * var(--u)) / calc(2.25 * var(--u)) calc(4.5 * var(--u)) repeat-y,
+        radial-gradient(farthest-side at 100% 50%, #0000 60%, #000 0) 100% calc(-2.25 * var(--u)) / calc(2.25 * var(--u)) calc(4.5 * var(--u)) repeat-y;
 }
 ```
 
@@ -102,8 +102,8 @@ Everything in the stamp is written as a multiple of one variable:
 
 ```css
 .stamp-area {
-	--u: 0.325cqi;   /* master scale — the stamp is drawn in multiples of it */
-	height: calc(49 * var(--u));
+    --u: 0.325cqi;   /* master scale — the stamp is drawn in multiples of it */
+    height: calc(49 * var(--u));
 }
 ```
 
@@ -115,9 +115,9 @@ The circular cancellation mark is one `<div>` with text in it. The circle and it
 
 ```css
 background:
-	radial-gradient(farthest-side, #0000 95%, #2369 0),                    /* the ring */
-	linear-gradient(#2369 0 0) 50% 40% / 75% 2.25% no-repeat,              /* upper bar */
-	linear-gradient(#2369 0 0) 50% 60% / 75% 2.25% no-repeat;              /* lower bar */
+    radial-gradient(farthest-side, #0000 95%, #2369 0),                    /* the ring */
+    linear-gradient(#2369 0 0) 50% 40% / 75% 2.25% no-repeat,              /* upper bar */
+    linear-gradient(#2369 0 0) 50% 60% / 75% 2.25% no-repeat;              /* lower bar */
 ```
 
 The ring uses the same gradient idea as the scallops, but inverted: the middle stays transparent, leaving a thin outline. The two bars are just solid-colour gradients positioned across it.
@@ -126,13 +126,13 @@ Then the whole thing gets a second mask so it looks stamped more naturally:
 
 ```css
 mask:
-	radial-gradient(#0008, #0000 70%) 3% 3% / 5% 5%,
-	radial-gradient(#000c, #0000 50%) 5% 5% / 7% 7%,
-	radial-gradient(#0008, #0000 40%) 7% 7% / 11% 11%,
-	radial-gradient(#0005, #0000 30%) 11% 11% / 13% 13%,
-	radial-gradient(#000f, #0000 70%) 5% 5% / 13% 11%,
-	radial-gradient(#000a, #0000 50%) 7% 9% / 14% 12%,
-	radial-gradient(#0008, #0000 30%) 9% 11% / 9% 8%;
+    radial-gradient(#0008, #0000 70%) 3% 3% / 5% 5%,
+    radial-gradient(#000c, #0000 50%) 5% 5% / 7% 7%,
+    radial-gradient(#0008, #0000 40%) 7% 7% / 11% 11%,
+    radial-gradient(#0005, #0000 30%) 11% 11% / 13% 13%,
+    radial-gradient(#000f, #0000 70%) 5% 5% / 13% 11%,
+    radial-gradient(#000a, #0000 50%) 7% 9% / 14% 12%,
+    radial-gradient(#0008, #0000 30%) 9% 11% / 9% 8%;
 ```
 
 Seven layers of tiny dots, each with a slightly different size, offset and opacity. Because they don't line up neatly, they create speckle instead of an obvious repeating pattern. Some of the ink is missing, some of it is faint.
@@ -147,13 +147,13 @@ They draw themselves in when the page loads:
 
 ```css
 .postmark-waves path {
-	stroke-dasharray: 600;
-	stroke-dashoffset: 600;
-	animation: stamp 1.2s ease forwards;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: stamp 1.2s ease forwards;
 }
 
 @keyframes stamp {
-	to { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: 0; }
 }
 ```
 
@@ -175,14 +175,14 @@ Two rotations do most of the work of making it feel handmade:
 
 ```css
 .post-message {
-	font-family: 'The Girl Next Door', cursive;
-	transform: rotate(-1deg);   /* slight rotation for a handmade feel */
+    font-family: 'The Girl Next Door', cursive;
+    transform: rotate(-1deg);   /* slight rotation for a handmade feel */
 }
 
 .sign-off {
-	font-family: 'The Girl Next Door', cursive;
-	transform: rotate(-12deg);
-	margin-top: auto;           /* pushed to the bottom of the column */
+    font-family: 'The Girl Next Door', cursive;
+    transform: rotate(-12deg);
+    margin-top: auto;           /* pushed to the bottom of the column */
 }
 ```
 

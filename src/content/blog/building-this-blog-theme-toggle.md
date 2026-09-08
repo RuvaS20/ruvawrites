@@ -21,9 +21,9 @@ Here's the rundown:
 
 ```css
 :root {
-	/* Light theme — the default */
-	--bg: #f4e9e1;
-	--text: 15, 18, 25;
+    /* Light theme — the default */
+    --bg: #f4e9e1;
+    --text: 15, 18, 25;
 }
 
 body   { background: var(--bg); }
@@ -40,9 +40,9 @@ So I define my colors twice: once for light mode, once for dark. In `src/styles/
 ```css
 
 :root[data-theme='dark'] {
-	/* Dark theme — SAME names, different values */
-	--bg: #0f1219;
-	--text: 229, 233, 240;
+    /* Dark theme — SAME names, different values */
+    --bg: #0f1219;
+    --text: 229, 233, 240;
 }
 ```
 
@@ -52,7 +52,7 @@ Two things to unpack here.
 
 **What's `:root[data-theme='dark']`?** It's a conditional. It reads as "the `<html>` element, but only when it has an attribute `data-theme="dark"` on it." So this whole second block is dormant until something flips that attribute on — which is the toggle's entire job (Step 5).
 
-And the one rule I cannot break: **both blocks use the exact same names** (`--bg`, `--text`). The dark block doesn't invent new colors, it just reassigns the same nicknames. 
+And the one rule I cannot break: **both blocks use the exact same names** (`--bg`, `--text`). The dark block doesn't invent new colors, it just reassigns the same nicknames.
 
 ### Side Note: Text as rgb
 
@@ -77,9 +77,9 @@ To beat the flash, I need to set the theme before the first paint. That means a 
 
 ```astro
 <script is:inline>
-	const theme = localStorage.getItem('theme')
-		|| (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-	document.documentElement.setAttribute('data-theme', theme);
+    const theme = localStorage.getItem('theme')
+        || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
 </script>
 ```
 
@@ -92,8 +92,7 @@ Reading it line by line, it answers three questions in order:
 Two pieces make this work:
 
 > **localStorage:** a tiny storage box built into the browser. Text I save there survives reloads and even closing the tab. I use it to remember the visitor's last choice.
-
-> **`is:inline`:** an Astro instruction meaning "don't bundle or defer this script — run it right here, right now." 
+> **`is:inline`:** an Astro instruction meaning "don't bundle or defer this script — run it right here, right now."
 
 So a returning visitor gets their saved theme, and a brand-new visitor on a dark-mode laptop gets dark mode automatically. No flash either way.
 
@@ -105,8 +104,8 @@ The switch itself is a tiny component, `ThemeToggle.astro`:
 
 ```astro
 <label class="toggle">
-	<input type="checkbox" />
-	<div></div>
+    <input type="checkbox" />
+    <div></div>
 </label>
 ```
 
@@ -116,9 +115,9 @@ Just a checkbox and an empty `<div>`. The entire sun/moon picture is drawn from 
 
 ```css
 .toggle input + div {
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;   /* a square with fully-rounded corners = a circle */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;   /* a square with fully-rounded corners = a circle */
 }
 ```
 
@@ -130,12 +129,12 @@ Here's the trick: an **inset box-shadow**. A normal `box-shadow` sits outside an
 
 ```css
 .toggle input + div {
-	/* ...the circle from Stage 1... */
-	box-shadow: inset 16px -16px 0 0 var(--toggle-color);
+    /* ...the circle from Stage 1... */
+    box-shadow: inset 16px -16px 0 0 var(--toggle-color);
 }
 ```
 
-Reading those numbers: `16px` right, `-16px` up (so the shadow shifts to the upper-right), `0` blur, `0` spread. Shifting a filled shape up-and-right leaves a crescent gap on the lower-left. That gap is the moon. 
+Reading those numbers: `16px` right, `-16px` up (so the shadow shifts to the upper-right), `0` blur, `0` spread. Shifting a filled shape up-and-right leaves a crescent gap on the lower-left. That gap is the moon.
 
 **Stage 3 — when checked, turn the moon into a sun.**
 
@@ -144,7 +143,7 @@ When the checkbox is ticked, I grow the inset shadow bigger and switch its color
 ```css
 /* Checkbox ticked → fill the whole circle back in = a solid sun */
 .toggle input:checked + div {
-	box-shadow: inset 32px -32px 0 0 var(--bg);
+    box-shadow: inset 32px -32px 0 0 var(--bg);
 }
 ```
 
@@ -154,7 +153,7 @@ When the checkbox is ticked, I grow the inset shadow bigger and switch its color
 
 ```css
 .toggle input + div {
-	transition: box-shadow .5s ease, transform .4s ease;
+    transition: box-shadow .5s ease, transform .4s ease;
 }
 ```
 
@@ -168,20 +167,20 @@ So far the checkbox only changes how the toggle looks. This small script has to 
 
 ```astro
 <script>
-	const toggleInput = document.querySelector('.toggle input');
-	const root = document.documentElement;
+    const toggleInput = document.querySelector('.toggle input');
+    const root = document.documentElement;
 
-	const applyTheme = (isDark) => {
-		root.setAttribute('data-theme', isDark ? 'dark' : 'light');
-		localStorage.setItem('theme', isDark ? 'dark' : 'light');
-	};
+    const applyTheme = (isDark) => {
+        root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
 
-	// On load, match the checkbox to whatever theme is already active
-	toggleInput.checked = root.getAttribute('data-theme') === 'dark';
+    // On load, match the checkbox to whatever theme is already active
+    toggleInput.checked = root.getAttribute('data-theme') === 'dark';
 
-	toggleInput.addEventListener('input', () => {
-		applyTheme(toggleInput.checked);
-	});
+    toggleInput.addEventListener('input', () => {
+        applyTheme(toggleInput.checked);
+    });
 </script>
 ```
 
@@ -191,7 +190,7 @@ Breaking it down:
 - `applyTheme(isDark)` does the two things that matter: sets `data-theme` on `<html>` (which flips every color via Step 1) and saves the choice to `localStorage` (so Step 3 remembers it next time).
 - `addEventListener('input', ...)` runs `applyTheme` every time the checkbox is toggled.
 
-That's a complete, working light/dark toggle. 
+That's a complete, working light/dark toggle.
 
 ## 6: The smooth circular "wipe"
 
@@ -205,27 +204,27 @@ This is the effect I most wanted to understand: clicking the toggle doesn't just
 
 ```js
 toggleInput.addEventListener('input', () => {
-	const isDark = toggleInput.checked;
+    const isDark = toggleInput.checked;
 
-	// 1. Figure out where the toggle sits on screen (its center point)
-	const rect = document.querySelector('.toggle').getBoundingClientRect();
-	const x = rect.left + rect.width / 2;
-	const y = rect.top + rect.height / 2;
+    // 1. Figure out where the toggle sits on screen (its center point)
+    const rect = document.querySelector('.toggle').getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
-	// 2. Old browser with no support? Just swap instantly, no animation.
-	if (!document.startViewTransition) {
-		applyTheme(isDark);
-		return;
-	}
+    // 2. Old browser with no support? Just swap instantly, no animation.
+    if (!document.startViewTransition) {
+        applyTheme(isDark);
+        return;
+    }
 
-	// 3. Otherwise, let the browser animate between before and after.
-	const transition = document.startViewTransition(() => applyTheme(isDark));
+    // 3. Otherwise, let the browser animate between before and after.
+    const transition = document.startViewTransition(() => applyTheme(isDark));
 
-	// 4. Once it's ready, tell the CSS where the circle should grow from.
-	transition.ready.then(() => {
-		root.style.setProperty('--x', `${x}px`);
-		root.style.setProperty('--y', `${y}px`);
-	});
+    // 4. Once it's ready, tell the CSS where the circle should grow from.
+    transition.ready.then(() => {
+        root.style.setProperty('--x', `${x}px`);
+        root.style.setProperty('--y', `${y}px`);
+    });
 });
 ```
 
@@ -241,12 +240,12 @@ toggleInput.addEventListener('input', () => {
 
 ```css
 @keyframes reveal-in {
-	from { clip-path: circle(0% at var(--x) var(--y)); }
-	to   { clip-path: circle(150% at var(--x) var(--y)); }
+    from { clip-path: circle(0% at var(--x) var(--y)); }
+    to   { clip-path: circle(150% at var(--x) var(--y)); }
 }
 
 ::view-transition-new(root) {
-	animation: reveal-in 0.5s ease-in-out forwards;
+    animation: reveal-in 0.5s ease-in-out forwards;
 }
 ```
 
