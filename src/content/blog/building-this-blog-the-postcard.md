@@ -12,13 +12,11 @@ The [hero](/blog/building-this-blog-the-home-page/) left me with a gap in the bo
 
 The rest of it is stitched together from CodePen. The perforated stamp edge and the smudged postmark are both mask tricks I learned from other people's pens. (Unfortunately I've lost the exact ones to the void once again but you can use [this pen](https://codepen.io/skopekreep/pen/xGBZVv) as inspo as well).
 
----
-
-## The border that isn't a border
+## The border
 
 The pink frame around the card looks like `border: 20px solid pink`. It isn't.
 
-The card's background *is* the pink. Then a pseudo-element paints the cream face on top of it, inset by a fixed amount, and the gap around the edges is what you read as a border:
+The card's background is actually the pink. A pseudo-element then paints the cream face on top, leaving a gap around the edges that reads as a border:
 
 ```css
 .postcard {
@@ -38,63 +36,13 @@ The card's background *is* the pink. Then a pseudo-element paints the cream face
 }
 ```
 
-> **`inset`:** shorthand for `top`, `right`, `bottom` and `left` at once. `inset: 2.5cqi` means "sit 2.5cqi in from every edge of the parent."
+Doing it this way I can round the pink and the cream by different amounts.
 
-Why bother, when a real border would do? Because a border sits *outside* the padding box and doesn't take a `border-radius` independently of the element, so the inner corners and outer corners are locked together. Doing it this way I can round the pink and the cream by different amounts, and later I can make the "border" a gradient or a texture without touching anything else.
+The `z-index: -1` keeps the cream layer behind the card's content, so the text still sits on top.
 
-The `z-index: -1` puts the cream layer behind the card's own content but still in front of the pink background, which is the bit I always get wrong and have to fiddle with.
+Alternatively, I could've had nested divs for simplicity as well, I might still do that in the future.
 
----
-
-## Sizing the whole card off its container
-
-This was the part I actually wanted to get right. I designed the card at 800px wide, but it lives in a hero column on desktop and a full-width stack on mobile, and I didn't want to write breakpoints for the stamp.
-
-So there are no `px` anywhere in the layout. Every length is in `cqi`.
-
-> **`cqi`:** 1% of the *container's* inline size — its width, in a normal left-to-right layout. `50cqi` is half the container's width, whatever that turns out to be.
-
-For that unit to mean anything, some ancestor has to volunteer as the container:
-
-```css
-.postcard-wrap {
-	container-type: inline-size;
-	width: 100%;
-}
-```
-
-That one line is what makes `cqi` resolve. Without it the unit falls back to the nearest containing block, which in practice means the viewport, and nothing behaves.
-
-The conversion from the original design is just arithmetic. The card was 800px wide with 35px of padding, so:
-
-```
-35 / 800 = 4.375%  →  padding: 4.375cqi
-```
-
-The header was 56px, which is `7cqi`. The inset was 20px, which is `2.5cqi`. Every number in the file came out of that one division.
-
-The last piece is the shape:
-
-```css
-.postcard {
-	width: 100%;
-	aspect-ratio: 1.5;
-}
-```
-
-> **`aspect-ratio`:** lock the height to the width by a ratio. `1.5` means "always half again as wide as it is tall," so the card can never go squat or letterboxed.
-
-The result is that the parent sets a width and the card handles everything else. On the home page the entire styling for it is one rule:
-
-```css
-.hero-postcard {
-	margin-top: auto;   /* sits at the bottom, level with the left card */
-}
-```
-
----
-
-## Slots, so it isn't the same card twice
+## Slots
 
 The card takes a few props for the small text — the heading, the postmark lines, the stamp's alt text — but the message and the sign-off are `<slot>`s:
 
@@ -108,19 +56,15 @@ The card takes a few props for the small text — the heading, the postmark line
 </p>
 ```
 
-> **Named slot:** a hole in a component that the parent fills. `<slot name="message" />` is filled by whatever the parent passes with `slot="message"`.
-
 > **Fallback content:** anything written *inside* the slot tags shows when nobody fills it. So `<Postcard />` on its own still renders a complete card, with the default message.
 
-Which means the home page can drop in `<Postcard class="hero-postcard" />` and get the full thing, and a future page can pass its own words without me duplicating 300 lines of CSS.
-
----
+So the home page can use `<Postcard class="hero-postcard" />` as-is, while a future page can pass in its own words without duplicating the CSS.
 
 ## The stamp
 
-The stamp has that scalloped, chewed-looking edge — the perforations. There's no image of a stamp anywhere; it's a photo with a piece of white paper on top of it, and the paper has bites taken out of its edges.
+The stamp has that scalloped, chewed-looking edge — the perforations. It's a photo with a piece of white paper on top of it, and the paper has bites taken out of its edges.
 
-The photo is a `background` on `.stamp`, embedded as a base64 data URI so the component carries its own image and doesn't need a file sitting next to it. Then the paper:
+The photo is a `background` on `.stamp`, embedded as a base64 data URI so the component carries its own image. Then the paper:
 
 ```css
 .stamp::before {
@@ -140,25 +84,17 @@ The photo is a `background` on `.stamp`, embedded as a base64 data URI so the co
 }
 ```
 
-> **`mask`:** an image that decides which parts of an element you can see. Where the mask image is opaque, the element shows. Where it's transparent, the element is invisible. It takes all the same values as `background` — position, size, `repeat-x`, layers separated by commas.
-
-Take one line:
+> **`mask`:** decides which parts of an element you can see. Opaque areas show; transparent areas become invisible. It works a lot like `background`, so you can position, size and repeat multiple layers.
 
 ```css
 radial-gradient(farthest-side at 50% 0%, #0000 60%, #000 0)
 ```
 
-A circle centred on the top edge (`at 50% 0%`) that is **transparent** out to 60% of its radius and **solid black** past that. As a mask, transparent means "punch a hole here." So this gradient is a single semicircular bite out of the top edge.
+This creates one semicircular bite along the top edge. The transparent part becomes the hole; the solid part stays visible. Then it gets tiled across the edge. Four gradients — one for each side — give the paper a ring of bites all the way around.
 
-Then it gets tiled. The size `4.5u × 2.25u` makes each tile twice as wide as it is tall, `repeat-x` runs the tiles along the top edge, and the `-2.25u` offset shifts the whole row half a tile left so the scallops sit where I want them. Four gradients, four edges, and the paper ends up with a ring of bites all the way around.
+> The paper can't be a parent of the photo. A mask clips everything inside it, so the photo would've been scalloped too.
 
-The one that cost me time is in a comment in the file:
-
-> The paper must **not** be a parent of the photo. A mask clips everything inside the element, not just the element's own background — so wrapping the photo in the masked layer would have masked the photo too, and I'd have got a scalloped photo instead of a scalloped frame.
-
-So they're siblings in painting order: photo underneath, masked paper on top, punched out in the middle so the photo shows through the hole.
-
----
+So they're siblings: photo underneath, masked paper on top, with a hole in the middle for the photo to show through.
 
 ## The `--u` unit
 
@@ -171,9 +107,7 @@ Everything in the stamp is written as a multiple of one variable:
 }
 ```
 
-The stamp is `36u × 45u`, the paper is `40u × 49u`, the scallops are `2.25u`, the postmark circle is `36u`. When the stamp came out too big against the card, I changed `--u` from one number to another and every part of it moved together. Doing that with twenty separate `cqi` values would have been a bad afternoon.
-
----
+The stamp, paper, scallops and postmark are all sized as multiples of `--u`. When the stamp came out too big against the card, I changed one number around.
 
 ## The postmark
 
@@ -186,13 +120,9 @@ background:
 	linear-gradient(#2369 0 0) 50% 60% / 75% 2.25% no-repeat;              /* lower bar */
 ```
 
-The ring is the same trick as the scallops, inverted: transparent out to 95%, coloured after that, which leaves a thin outline instead of a filled disc. The bars are solid-colour gradients squashed to 2.25% tall and positioned at 40% and 60% down.
+The ring uses the same gradient idea as the scallops, but inverted: the middle stays transparent, leaving a thin outline. The two bars are just solid-colour gradients positioned across it.
 
-> **`linear-gradient(#2369 0 0)`:** a gradient from a colour to itself, which is just a rectangle of that colour. It's the shortest way to make a solid block you can size and position like a background image.
-
-> **`#2369`:** an 8-digit-style hex in shorthand — `#2369` is `#223366` at 60% opacity. Four digits means RGBA, one digit each.
-
-Then the whole thing gets a second mask so it looks stamped by a tired hand rather than printed:
+Then the whole thing gets a second mask so it looks stamped more naturally:
 
 ```css
 mask:
@@ -205,26 +135,15 @@ mask:
 	radial-gradient(#0008, #0000 30%) 9% 11% / 9% 8%;
 ```
 
-Seven layers of tiny dots, each at a slightly different tile size, offset and opacity. Because none of the tile sizes divide evenly into each other, the layers never line up the same way twice across the circle, and the overlap comes out as speckle rather than a pattern. Some of the ink is missing, some of it is faint. That's the whole effect.
+Seven layers of tiny dots, each with a slightly different size, offset and opacity. Because they don't line up neatly, they create speckle instead of an obvious repeating pattern. Some of the ink is missing, some of it is faint.
 
-I didn't derive those numbers. I nudged them until it looked right, which I think is the honest answer for most of this file.
+## Drawing wavy lines
 
----
-
-## Drawing the killer bars
-
-The wavy lines trailing off the postmark are SVG, because CSS is bad at wobbles:
-
-```astro
-<svg class="postmark-waves" viewBox="0 0 120 60" preserveAspectRatio="none" aria-hidden="true">
-	<path pathLength="600" d="M2 8 q 14.75 -8 29.5 0 t 29.5 0 t 29.5 0 t 29.5 0" />
-	<!-- three more, at y = 22, 36, 50 -->
-</svg>
-```
+The wavy lines trailing off the postmark are SVGs:
 
 > **`q` and `t` in a path:** `q` draws a quadratic curve with one control point; `t` draws another one that mirrors the previous control point automatically. So one `q` plus three `t`s gives four alternating humps — a wave — without me writing out every control point.
 
-They draw themselves in when the page loads, which is the bit I like:
+They draw themselves in when the page loads:
 
 ```css
 .postmark-waves path {
@@ -238,11 +157,9 @@ They draw themselves in when the page loads, which is the bit I like:
 }
 ```
 
-> **`stroke-dasharray`:** turns a line into dashes. Set the dash length to the full length of the path and you get one dash and one gap, each as long as the whole line.
+`stroke-dasharray` and `stroke-dashoffset` hide the line at first, then slide it into view. The result is the usual SVG "draw itself" effect.
 
-> **`stroke-dashoffset`:** slides the dash pattern along the path. At `600` the gap is over the visible line, so nothing shows. Animating it to `0` slides the dash into place, and the line appears to be drawn.
-
-The `pathLength="600"` is what makes those numbers safe. Normally you'd have to measure the real length of each path (in JS, usually) to know what to put in `dasharray`. `pathLength` tells the browser "pretend this path is 600 units long, whatever it actually is," so all four waves use the same two numbers even though they're different lengths.
+The `pathLength="600"` saves me from measuring each path separately. It lets all four waves use the same dash values, even though the actual paths are different lengths.
 
 Each line waits a little longer than the one above it, same stagger idea as the [nav links](/blog/building-this-blog-the-nav/):
 
@@ -251,23 +168,6 @@ Each line waits a little longer than the one above it, same stagger idea as the 
 .postmark-waves path:nth-child(3) { animation-delay: 0.16s; }
 .postmark-waves path:nth-child(4) { animation-delay: 0.24s; }
 ```
-
-And since this is decoration and nobody asked for it to move:
-
-```css
-@media (prefers-reduced-motion: reduce) {
-	.postmark-waves path {
-		animation: none;
-		stroke-dashoffset: 0;
-	}
-}
-```
-
-> **`prefers-reduced-motion`:** an OS-level setting some people turn on because animation makes them ill. Honouring it costs four lines. The mark still ends up fully drawn — it just skips the drawing.
-
-The `<svg>` is `aria-hidden="true"`, as is the postmark text, because neither means anything to someone listening to the page. The stamp itself gets `role="img"` and a real `aria-label`, since it's a photo and worth describing.
-
----
 
 ## The crooked bits
 
@@ -286,28 +186,4 @@ Two rotations do most of the work of making it feel handmade:
 }
 ```
 
-One degree on the message is almost nothing. You don't consciously see it, but perfectly level handwriting reads as fake, and this fixes that for one line of CSS. Twelve degrees on the sign-off is the opposite — obvious, and meant to be, like it was squeezed in at the end.
-
-The address lines are four empty `<div>`s with a bottom border. That's the entire trick:
-
-```css
-.address-line {
-	border-bottom: max(1px, 0.125cqi) solid var(--dark-ink);
-}
-```
-
-The `max(1px, 0.125cqi)` is there because at small container widths `0.125cqi` rounds down to something the browser renders as nothing, and the lines vanish. `max()` sets a floor so they stay visible however small the card gets.
-
----
-
-## What I want future-me to remember
-
-- **A background plus an inset pseudo-element gives you a border you can actually control.** Round the outside and the inside by different amounts, or make one of them a gradient later.
-- **`container-type: inline-size` on a wrapper, then everything in `cqi`.** Design at a fixed width, divide every measurement by that width, and the component becomes responsive with no media queries. This was the big one.
-- **`mask` takes the same values as `background`** — layers, positions, sizes, `repeat-x`. Transparent punches a hole, opaque keeps the pixels.
-- **A mask clips descendants.** If I want to mask a frame around a photo, the frame has to be a *sibling* of the photo, not its parent.
-- **`pathLength` frees you from measuring SVG paths.** Declare a fake length and `stroke-dasharray` / `stroke-dashoffset` become predictable numbers you can reuse across every path.
-- **One local variable (`--u`) for a cluster of related sizes.** Rescaling the stamp was one edit instead of twenty.
-- **`max(1px, …)` keeps hairlines from disappearing** when a fluid unit rounds down to zero.
-
-The card is sitting in the hero for now, but we'll work on other ideas as they come.
+Welp, that's most of it for now. I'd be lying if I quite understand everything yet, but I shall be back!

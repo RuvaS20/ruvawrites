@@ -13,7 +13,7 @@ In my last post, [Building This Blog: Astro](/blog/building-this-blog-astro/), I
 
 ## Thematic
 
-I learnt that the simplest system to employ when theming is to use CSS variables. Don't scatter hardcoded colors around your CSS, you will indeed regret that. Instead, give each color a name, and swap around what those names "mean". 
+I learnt that the simplest system to employ when theming is to use CSS variables. Don't scatter hardcoded colors around your CSS, you will indeed regret that. Instead, give each color a name, and swap around what those names "mean".
 
 Here's the rundown:
 
